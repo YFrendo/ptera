@@ -49,5 +49,6 @@ Il suffit d'installer les requirements disponible dans le git et de lancer la co
 
 Quelques point d'améliorations possibles et idées pour le future:
 * Pouvoir déterminer le lieux d'enregistrement des fichiers lors du lancement du script
+* Gestion des cas où il y a plusieurs tiques 
 * On peut imaginer faire l'augmentation des données dans le meme temps
 * Le rendre plus facile d'utilisation? 
