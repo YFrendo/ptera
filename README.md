@@ -21,8 +21,33 @@ Pour notre segmentation nous avons besoin de 2 Attributes :
 * 'Region' qui est une checkbox avec 3 id:
   * 'Rostre'
   * 'Bouclier'
-  * 'Abdomen'
+  * 'Abdomen' 
 * 'Tique' qui est une checkbox avec 2 id:
   * 'oui'
-  * 'non' (cocher la case par défault)
-  
+  * 'non' (cocher la case par défault)  
+
+### Configuration des attributes 
+
+![Image pour l'attribute Region](https://github.com/YFrendo/ptera/blob/main/images_readme/Region.png?raw=true)
+![Image pour l'attribute Tique](https://github.com/YFrendo/ptera/blob/main/images_readme/TIque.png?raw=true)  
+
+### Segmentation et annotation  
+
+![Image pour l'attribute Region](https://github.com/YFrendo/ptera/blob/main/images_readme/Image_segmente.png?raw=true)
+![Image pour l'attribute Tique](https://github.com/YFrendo/ptera/blob/main/images_readme/Annotations.png?raw=true)  
+
+## Utilisation de PTERA  
+
+Il suffit d'installer les requirements disponible dans le git et de lancer la commande suivante à l'endroit où vous voulez que les fichiers soit créer:  
+`python3 ptera.py [path du fichier JSON des annotations] [path du dossier contenant les images] [Largeur] [Hauteur]`
+
+### Résultats de PTERA
+
+![Image pour l'attribute Region](https://github.com/YFrendo/ptera/blob/main/images_readme/Resultat_ptera.png?raw=true)
+
+## Améliorations possibles
+
+Quelques point d'améliorations possibles et idées pour le future:
+* Pouvoir déterminer le lieux d'enregistrement des fichiers lors du lancement du script
+* On peut imaginer faire l'augmentation des données dans le meme temps
+* Le rendre plus facile d'utilisation? 
