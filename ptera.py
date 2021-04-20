@@ -9,12 +9,20 @@ COLOR = ['red','blue','green'] #Couleurs pour nos segmentations
 path_json = str(sys.argv[1]) #En premier le chemin vers le JSON
 path_image = str(sys.argv[2]) #En deuxième vers les images
 
+try:
+    reshape_width = int(sys.argv[3])
+except:
+    reshape_width = 512 #Taille par défaut
+
+try:
+    reshape_height= int(sys.argv[4])
+except:
+    reshape_height = 512 #Taille par défaut
+
+
 #path_json = "/home/yfrendo/Data/DATASET MorphoTique/0-Ixodes_masques/anotation.json"
 #path_image = "/home/yfrendo/Data/DATASET MorphoTique/0-Ixodes/"
 #test
-
-reshape_width = 512 #Taille pour le reshape
-reshape_height = 512
 
 df_json = pd.read_json(path_json)
 df_json = df_json.transpose().reset_index()[['filename','regions']] #On réduit un peu
