@@ -93,10 +93,10 @@ for image_id in tqdm(range(len(df_json['regions']))):
     im = im.crop((x_crop,y_crop,x_crop + width_crop, y_crop + height_crop)) #Découpe zone interet
     font = font.crop((x_crop,y_crop,x_crop + width_crop, y_crop + height_crop))
 
-    im = im.resize((reshape_width,reshape_height)) #Reshape
-    font = font.resize((reshape_width,reshape_height))
+    im = im.resize((reshape_width,reshape_height),Image.LANCZOS) #Reshape
+    font = font.resize((reshape_width,reshape_height),Image.LANCZOS)
 
-    font.save("./Masques/" + df_json['filename'][image_id] + "_masque", "JPEG") #SAuvegarde
-    im.save("./Images/" + df_json['filename'][image_id], 'JPEG')
+    font.save("./Masques/" + df_json['filename'][image_id].replace('.jpg' ,'') + "_masque.png", "PNG") #SAuvegarde
+    im.save("./Images/" + df_json['filename'][image_id].replace('.jpg' ,'') + ".png", 'PNG')
 
 
