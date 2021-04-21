@@ -1,13 +1,18 @@
 import os
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageEnhance, ImageFilter
 import pandas as pd
+import numpy as np
 import sys
+import random
 from tqdm import tqdm #Une petite barre de progression on sait jamais ca peut etre long
+from transfo_func import noise_generator
 
 COLOR = ['red','blue','green'] #Couleurs pour nos segmentations
 
 path_json = str(sys.argv[1]) #En premier le chemin vers le JSON
 path_image = str(sys.argv[2]) #En deuxième vers les images
+
+id_save = 0 #Pour numéroter nos images
 
 try:
     reshape_width = int(sys.argv[3])
@@ -96,7 +101,74 @@ for image_id in tqdm(range(len(df_json['regions']))):
     im = im.resize((reshape_width,reshape_height),Image.LANCZOS) #Reshape
     font = font.resize((reshape_width,reshape_height),Image.LANCZOS)
 
-    font.save("./Masques/" + df_json['filename'][image_id].replace('.jpg' ,'') + "_masque.png", "PNG") #SAuvegarde
-    im.save("./Images/" + df_json['filename'][image_id].replace('.jpg' ,'') + ".png", 'PNG')
+    font.save("./Masques/" + str(id_save).zfill(6) + ".png", "PNG") #SAuvegarde
+    im.save("./Images/" + str(id_save).zfill(6) + ".png", 'PNG')
+    id_save += 1 #Une image de plus
+
+    """On va rajouter un peu d'augmentation"""
+    im_transfo = im.transpose(method=Image.ROTATE_90)
+    font_transfo = font.transpose(method=Image.ROTATE_90)
+
+    font_transfo.save("./Masques/" + str(id_save).zfill(6) + ".png", "PNG") #SAuvegarde
+    im_transfo.save("./Images/" + str(id_save).zfill(6) + ".png", 'PNG')
+    id_save += 1 #Une image de plus
+
+    im_transfo = im.transpose(method=Image.ROTATE_180)
+    font_transfo = font.transpose(method=Image.ROTATE_180)
+
+    font_transfo.save("./Masques/" + str(id_save).zfill(6) + ".png", "PNG") #SAuvegarde
+    im_transfo.save("./Images/" + str(id_save).zfill(6) + ".png", 'PNG')
+    id_save += 1 #Une image de plus
+
+    im_transfo = im.transpose(method=Image.ROTATE_270)
+    font_transfo = font.transpose(method=Image.ROTATE_270)
+
+    font_transfo.save("./Masques/" + str(id_save).zfill(6) + ".png", "PNG") #SAuvegarde
+    im_transfo.save("./Images/" + str(id_save).zfill(6) + ".png", 'PNG')
+    id_save += 1 #Une image de plus
+
+    im_transfo = im.transpose(method=Image.FLIP_LEFT_RIGHT)
+    font_transfo = font.transpose(method=Image.FLIP_LEFT_RIGHT)
+
+    font_transfo.save("./Masques/" + str(id_save).zfill(6) + ".png", "PNG") #SAuvegarde
+    im_transfo.save("./Images/" + str(id_save).zfill(6) + ".png", 'PNG')
+    id_save += 1 #Une image de plus
+
+    im_transfo = im.transpose(method=Image.FLIP_TOP_BOTTOM)
+    font_transfo = font.transpose(method=Image.FLIP_TOP_BOTTOM)
+
+    font_transfo.save("./Masques/" + str(id_save).zfill(6) + ".png", "PNG") #SAuvegarde
+    im_transfo.save("./Images/" + str(id_save).zfill(6) + ".png", 'PNG')
+    id_save += 1 #Une image de plus
+
+    enhancer = ImageEnhance.Contrast(im) #Contraste
+    im_transfo = enhancer.enhance(0.5) #Application que sur l'image!
+    font.save("./Masques/" + str(id_save).zfill(6) + ".png", "PNG") 
+    im_transfo.save("./Images/" + str(id_save).zfill(6) + ".png", 'PNG')
+    id_save += 1 #Une image de plus
+
+    enhancer = ImageEnhance.Contrast(im) #Contraste
+    im_transfo = enhancer.enhance(1.5)#Application que sur l'image!
+    font.save("./Masques/" + str(id_save).zfill(6) + ".png", "PNG") 
+    im_transfo.save("./Images/" + str(id_save).zfill(6) + ".png", 'PNG')
+    id_save += 1 #Une image de plus
+
+    enhancer = ImageEnhance.Sharpness(im) #Sharp
+    im_transfo = enhancer.enhance(2)#Application que sur l'image!
+    font.save("./Masques/" + str(id_save).zfill(6) + ".png", "PNG") 
+    im_transfo.save("./Images/" + str(id_save).zfill(6) + ".png", 'PNG')
+    id_save += 1 #Une image de plus
+
+
+    im_transfo = noise_generator('s&p',np.array(im)) #Gauss a pas l'air de marcher ca sera donc s&p
+    im_transfo = Image.fromarray(im_transfo, 'RGB')
+    font.save("./Masques/" + str(id_save).zfill(6) + ".png", "PNG") 
+    im_transfo.save("./Images/" + str(id_save).zfill(6) + ".png", 'PNG')
+    id_save += 1 #Une image de plus
+
+
+
+
+
 
 
