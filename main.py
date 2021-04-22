@@ -1,12 +1,11 @@
 from Ptera_object import Segmentation
 from tqdm import tqdm #Une petite barre de progression on sait jamais ca peut etre long
+import random
 
-def main(path_json,path_image,liste_seg,interet = True,**kwargs):
+TRANSFO = ["seg.rotate_90()","seg.rotate_180()","seg.rotate_270()","seg.flip_LR()","seg.flip_TB()","seg.contrast(","seg.sharp(","seg.gaussian_noise()"] #Liste des transfos possible
 
-    if 'reshape' in kwargs:
-        reshape = kwargs['reshape'] 
-    else:
-        reshape = (512,512)     
+def main(path_json,path_image,liste_seg,interet = True, reshape = (512,512),value_augmentation = 3):
+
 
     seg = Segmentation(path_json,path_image,liste_seg,reshape)
 
@@ -28,6 +27,30 @@ def main(path_json,path_image,liste_seg,interet = True,**kwargs):
             seg.decoupe_interet()
             seg.resize_image()
             seg.save()
+
+            if value_augmentation != 0:
+
+                transfo_restante = list(TRANSFO) #On prend les transfo possible
+                random.shuffle(transfo_restante) #On mélange
+
+                for k in range(value_augmentation - 1): #Pour que le coefiscient multiplicateur sois bien le bon
+                    transfo = transfo_restante.pop() #Supprime et renvoie le dernier élément de la lsite
+
+                    if transfo == "seg.contrast(": #Permet de rajouter de l'aléatoire dans le constrasste et le sharp
+                        strength = round(random.uniform(0.5,1.5),3)
+                        transfo = transfo + str(strength) + ')'
+                        exec(transfo)
+                    elif transfo == "seg.sharp(":
+                        strength = round(random.uniform(1,2),3)
+                        transfo = transfo + str(strength) + ')'
+                        exec(transfo)
+                    else:
+                        exec(transfo)
+                    seg.save(original = False) #Et on sauvegarde
+
+
+
+
         
         else: #Autre cas
             for segmentation in range(len(seg.df_json['regions'][image_id])):
