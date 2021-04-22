@@ -35,7 +35,15 @@ class Segmentation:
         if type(self.liste_seg) != list:
             raise TypeError("La liste des segmentation doit etre une liste!")
         
-        self.width, self.height = reshape #Taille des fichiers voulu
+        try:
+            self.width, self.height = reshape #Taille des fichiers voulu
+            self.width = int(self.width)
+            self.height = int(self.height)
+        except:
+            raise ValueError("reshape doit etre un tupple (width,height)")
+        
+        if (self.width or self.height) <= 0:
+            raise ValueError("reshape doit contenir des entiers positifs")
 
         if not os.path.exists('Masques'): #On fait les dossier de sauvegarde des sorties
             os.makedirs('Masques')

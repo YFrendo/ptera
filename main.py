@@ -6,6 +6,8 @@ TRANSFO = ["seg.rotate_90()","seg.rotate_180()","seg.rotate_270()","seg.flip_LR(
 
 def main(path_json,path_image,liste_seg,interet = True, reshape = (512,512),value_augmentation = 3):
 
+    if value_augmentation < 0 or value_augmentation > len(TRANSFO):
+        raise ValueError ("value_augmentation doit etre compris entre 0 et " + str(len(TRANSFO)))
 
     seg = Segmentation(path_json,path_image,liste_seg,reshape)
 
@@ -47,10 +49,6 @@ def main(path_json,path_image,liste_seg,interet = True, reshape = (512,512),valu
                     else:
                         exec(transfo)
                     seg.save(original = False) #Et on sauvegarde
-
-
-
-
         
         else: #Autre cas
             for segmentation in range(len(seg.df_json['regions'][image_id])):
@@ -58,13 +56,6 @@ def main(path_json,path_image,liste_seg,interet = True, reshape = (512,512),valu
             seg.segmentation_image()
             seg.resize_image()
             seg.save()
-
-
-
-
-
-
-
 
 if __name__ == "__main__":
 
