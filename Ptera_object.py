@@ -8,13 +8,13 @@ from transfo_func import noise_generator
 
 class Segmentation:
 
-    def __init__(self,path_json,path_image,liste_seg,reshape):
+    def __init__(self,path_json,path_image,liste_seg,reshape,enregistrement = "."):
 
         self.df_json = pd.read_json(path_json) #On importe le data set
         self.df_json = self.df_json.transpose().reset_index()[['filename','regions']]
 
         self.path_image = path_image
-        self.liste_seg = liste_seg
+        self.liste_seg = liste_seg.split(",")
 
         self.im = None #ON définis nos attribut pour la suite
         self.font = None
@@ -31,6 +31,10 @@ class Segmentation:
 
         self.COLOR = ['red','blue','yellow','green','pink'] #Nos couleurs de segmentations
         self.id_save = 0 #On initialise le nombre de fichiers sauvegardé
+        self.enregistrement = str(enregistrement)
+
+        if len(self.liste_seg) > len(self.COLOR):
+            raise ValueError ("Le nombre maximum de segmentation est de " + str(len(self.COLOR)))
 
         if type(self.liste_seg) != list:
             raise TypeError("La liste des segmentation doit etre une liste!")
@@ -45,10 +49,10 @@ class Segmentation:
         if (self.width or self.height) <= 0:
             raise ValueError("reshape doit contenir des entiers positifs")
 
-        if not os.path.exists('Masques'): #On fait les dossier de sauvegarde des sorties
-            os.makedirs('Masques')
-        if not os.path.exists('Images'):
-            os.makedirs('Images')
+        if not os.path.exists(enregistrement + '/Masques'): #On fait les dossier de sauvegarde des sorties
+            os.makedirs(enregistrement + '/Masques')
+        if not os.path.exists(enregistrement + '/Images'):
+            os.makedirs(enregistrement + '/Images')
 
     def prep_image(self,image_id):
         """Importe une image et créer les objet nécéssaire"""
@@ -75,7 +79,10 @@ class Segmentation:
             all_x = self.df_json['regions'][image_id][segmentation]['shape_attributes']['all_points_x'] #Extraction des X
             all_y = self.df_json['regions'][image_id][segmentation]['shape_attributes']['all_points_y'] #Extraction des Y
         except:
-            raise ValueError('PTERA ne supporte que les polygones pour la segmentation')
+            if list(self.df_json['regions'][image_id][segmentation]['region_attributes']['Interet'].keys())[0] == "oui":
+                return None
+            else:
+                raise ValueError('PTERA ne supporte que les polygones pour la segmentation')
 
         poly = [] #Création de la liste pour créer le polygone
 
@@ -126,17 +133,17 @@ class Segmentation:
         self.im = self.im.resize((self.width,self.height),Image.LANCZOS) #Reshape
         self.font = self.font.resize((self.width,self.height),Image.LANCZOS)
 
-    def save(self, original = True):
+    def save(self,original = True):
 
         """Sauvegarde l'image et le fond, mettre original = False si on veut enregistrer les modifications"""
 
         if original:
-            self.font.save("./Masques/" + str(self.id_save).zfill(6) + ".png", "PNG") #Sauvegarde
-            self.im.save("./Images/" + str(self.id_save).zfill(6) + ".png", 'PNG')
+            self.font.save(self.enregistrement + "/Masques/" + str(self.id_save).zfill(6) + ".png", "PNG") #Sauvegarde
+            self.im.save(self.enregistrement + "/Images/" + str(self.id_save).zfill(6) + ".png", 'PNG')
             self.id_save += 1 #Une image de plus  
         else:
-            self.font_transfo.save("./Masques/" + str(self.id_save).zfill(6) + ".png", "PNG") #Sauvegarde
-            self.im_transfo.save("./Images/" + str(self.id_save).zfill(6) + ".png", 'PNG')
+            self.font_transfo.save(self.enregistrement + "/Masques/" + str(self.id_save).zfill(6) + ".png", "PNG") #Sauvegarde
+            self.im_transfo.save(self.enregistrement + "/Images/" + str(self.id_save).zfill(6) + ".png", 'PNG')
             self.id_save += 1 #Une image de plus              
 
     

@@ -1,15 +1,20 @@
+#!/usr/bin/env python3
+
 from Ptera_object import Segmentation
 from tqdm import tqdm #Une petite barre de progression on sait jamais ca peut etre long
 import random
+import sys
 
 TRANSFO = ["seg.rotate_90()","seg.rotate_180()","seg.rotate_270()","seg.flip_LR()","seg.flip_TB()","seg.contrast(","seg.sharp(","seg.gaussian_noise()"] #Liste des transfos possible
 
-def main(path_json,path_image,liste_seg,interet = True, reshape = (512,512),value_augmentation = 3):
+def main(path_json,path_image,liste_seg,interet = True, reshape = (512,512),value_augmentation = 0,enregistrement = "."):
+
+    enregistrement = str(enregistrement)
 
     if value_augmentation < 0 or value_augmentation > len(TRANSFO):
         raise ValueError ("value_augmentation doit etre compris entre 0 et " + str(len(TRANSFO)))
 
-    seg = Segmentation(path_json,path_image,liste_seg,reshape)
+    seg = Segmentation(path_json,path_image,liste_seg,reshape,enregistrement=enregistrement)
 
     for image_id in tqdm(range(len(seg.df_json['regions']))):
         seg.prep_image(image_id)
@@ -28,7 +33,7 @@ def main(path_json,path_image,liste_seg,interet = True, reshape = (512,512),valu
             seg.segmentation_image()
             seg.decoupe_interet()
             seg.resize_image()
-            seg.save()
+            seg.save(enregistrement)
 
             if value_augmentation != 0:
 
@@ -55,11 +60,31 @@ def main(path_json,path_image,liste_seg,interet = True, reshape = (512,512),valu
                 seg.create_polygon(image_id,segmentation)
             seg.segmentation_image()
             seg.resize_image()
-            seg.save()
+            seg.save(enregistrement)
 
 if __name__ == "__main__":
 
-    path_json = "/home/yfrendo/Data/DATASET MorphoTique/Ixodes_masques/anotation.json"
-    path_image = "/home/yfrendo/Data/DATASET MorphoTique/0-Ixodes/"
-    liste_seg = ["Bouclier","Abdomen",'Rostre']
-    main(path_json,path_image,liste_seg)
+    script = "main(path_json,path_image,liste_seg"
+    path_json = sys.argv[1]
+    path_image = sys.argv[2]
+    liste_seg = sys.argv[3]
+
+    if "-s" in sys.argv:
+        reshape = sys.argv[sys.argv.index('-s') + 1].split(",")
+        reshape = (reshape[0],reshape[1])
+        script = script + ',reshape = reshape'
+
+    if "-A" in sys.argv:
+        augmentation = int(sys.argv[sys.argv.index('-A') + 1])
+        script = script + ',value_augmentation = augmentation'
+    
+    if "-E" in sys.argv:
+        path_enregistrement = sys.argv[sys.argv.index('-E') + 1]
+        script = script + ',enregistrement = path_enregistrement'
+    
+    if "-c" in sys.argv:
+        script = script + ',interet = False'
+    
+    print(script)
+
+    exec(script + ')')

@@ -18,11 +18,8 @@ Le script va créer 2 dossier Images et Masques à l'endroit de l'exécution et 
 Les instructions pour installer et utiliser VIA sont ici : [via](https://www.robots.ox.ac.uk/~vgg/software/via/)  
 **Attention les majuscules sont importantes!**  
 Pour notre segmentation nous avons besoin de 2 Attributes :
-* 'Region' qui est une checkbox avec 3 id:
-  * 'Rostre'
-  * 'Bouclier'
-  * 'Abdomen' 
-* 'Tique' qui est une checkbox avec 2 id:
+* 'Segmentation' qui est une checkbox avec maximum 5 id
+* 'Interet' qui est une checkbox avec 2 id:
   * 'oui'
   * 'non' (cocher la case par défault)  
 
@@ -47,8 +44,5 @@ Il suffit d'installer les requirements disponible dans le git et de lancer la co
 
 ## Améliorations possibles
 
-Quelques point d'améliorations possibles et idées pour le future:
-* Pouvoir déterminer le lieux d'enregistrement des fichiers lors du lancement du script
+Quelques point d'améliorations possibles et idées pour le futur:
 * Gestion des cas où il y a plusieurs tiques 
-* On peut imaginer faire l'augmentation des données dans le meme temps
-* Le rendre plus facile d'utilisation? 
