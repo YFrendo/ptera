@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# pylint: disable=unused-variable
 
 from Ptera_object import Segmentation
 from tqdm import tqdm #Une petite barre de progression on sait jamais ca peut etre long
@@ -11,8 +12,8 @@ def main(path_json,path_image,liste_seg,interet = True, reshape = (512,512),valu
 
     enregistrement = str(enregistrement)
 
-    if value_augmentation < 0 or value_augmentation > len(TRANSFO):
-        raise ValueError ("value_augmentation doit etre compris entre 0 et " + str(len(TRANSFO)))
+    if value_augmentation < 0 or value_augmentation > len(TRANSFO) + 1:
+        raise ValueError ("value_augmentation doit etre compris entre 0 et " + str(len(TRANSFO)+1))
 
     seg = Segmentation(path_json,path_image,liste_seg,reshape,enregistrement=enregistrement)
 
@@ -44,11 +45,11 @@ def main(path_json,path_image,liste_seg,interet = True, reshape = (512,512),valu
                     transfo = transfo_restante.pop() #Supprime et renvoie le dernier élément de la lsite
 
                     if transfo == "seg.contrast(": #Permet de rajouter de l'aléatoire dans le constrasste et le sharp
-                        strength = round(random.uniform(0.5,1.5),3)
+                        strength = round(random.choice([0.5,1.3]) + random.uniform(0,0.2),3)
                         transfo = transfo + str(strength) + ')'
                         exec(transfo)
                     elif transfo == "seg.sharp(":
-                        strength = round(random.uniform(1,2),3)
+                        strength = round(random.uniform(1.7,2),3)
                         transfo = transfo + str(strength) + ')'
                         exec(transfo)
                     else:
