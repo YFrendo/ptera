@@ -27,6 +27,8 @@ Pour notre segmentation nous avons besoin de 2 Attributes :
   * 'oui'
   * 'non' (cocher la case par défault)  
 
+Il est possible de segmenter autant d'image que l'on veut dans un seul projet, il faut seulement que toutes les images soit dans le meme dossier.
+
 ### Configuration des attributes 
 
 ![Image pour l'attribute Segmentation](https://github.com/YFrendo/ptera/blob/main/images_readme/Segmentation.png?raw=true)
