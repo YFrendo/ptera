@@ -48,7 +48,20 @@ Il suffit d'installer les requirements disponible dans le git et de lancer la co
 
 ### Augmentation
 
-Une augmentation est possible jusque à 9 fois
+Une augmentation est possible jusque à 9 fois.  
+Le programme séléctionne dans la liste de facon unique et aléatoire les transformations à effectuer  .
+Liste des transformations possibles:
+* Rotations 90°
+* Rotations 180°
+* Rotations 270°
+* Flip Gauche-droite
+* FLip Haut - BAs
+* Contraste positif et négatif (valeur aléatoire)
+* Augmentation des contours (valeurs aléatoire)
+* Ajout de bruit type sel et poivre  
+
+![Image pour l'augmentation](https://github.com/YFrendo/ptera/blob/main/images_readme/Transformation.png?raw=true)
+
 
 ## Améliorations possibles
 
