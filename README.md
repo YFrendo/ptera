@@ -71,3 +71,4 @@ Quelques point d'améliorations possibles et idées pour le futur:
 * Gestion des cas où il y a plusieurs tiques 
 * Enlever la liste du nom des segmentations et la remplacer par le nombre de segmentation voir rien
 * Interface graphique / Docker
+* Utiliser Tensoflow ou Pytorch pour le bruit Gaussien et le S&P
