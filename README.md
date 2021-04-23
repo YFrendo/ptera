@@ -55,7 +55,7 @@ Liste des transformations possibles:
 * Rotations 180°
 * Rotations 270°
 * Flip Gauche-droite
-* FLip Haut - BAs
+* FLip Haut - Bas
 * Contraste positif et négatif (valeur aléatoire)
 * Augmentation des contours (valeurs aléatoire)
 * Ajout de bruit type sel et poivre  
