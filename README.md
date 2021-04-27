@@ -27,6 +27,8 @@ Pour notre segmentation nous avons besoin de 2 Attributes :
   * 'oui'
   * 'non' (cocher la case par défault)  
 
+Il est possible de segmenter autant d'image que l'on veut dans un seul projet, il faut seulement que toutes les images soit dans le meme dossier.
+
 ### Configuration des attributes 
 
 ![Image pour l'attribute Segmentation](https://github.com/YFrendo/ptera/blob/main/images_readme/Segmentation.png?raw=true)
@@ -55,7 +57,7 @@ Liste des transformations possibles:
 * Rotations 180°
 * Rotations 270°
 * Flip Gauche-droite
-* FLip Haut - BAs
+* FLip Haut - Bas
 * Contraste positif et négatif (valeur aléatoire)
 * Augmentation des contours (valeurs aléatoire)
 * Ajout de bruit type sel et poivre  
@@ -67,3 +69,6 @@ Liste des transformations possibles:
 
 Quelques point d'améliorations possibles et idées pour le futur:
 * Gestion des cas où il y a plusieurs tiques 
+* Enlever la liste du nom des segmentations et la remplacer par le nombre de segmentation voir rien
+* Interface graphique / Docker
+* Utiliser Tensoflow ou Pytorch pour le bruit Gaussien et le S&P
