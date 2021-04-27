@@ -94,9 +94,12 @@ class Segmentation:
         if not all(item in self.liste_seg for item in attribut) : #Si il y a des éléments en plus il ne seront pas segmenté (aucune erreur)
             raise ValueError ('liste_seg doit comprendre tout les éléments segmenté')
         
-        for k in range(len(self.liste_seg)):
-            if list(self.df_json['regions'][image_id][segmentation]['region_attributes']['Segmentation'].keys())[0] == self.liste_seg[k]:
-                col = k
+        try:
+            for k in range(len(self.liste_seg)):
+                if list(self.df_json['regions'][image_id][segmentation]['region_attributes']['Segmentation'].keys())[0] == self.liste_seg[k]:
+                    col = k
+        except:
+            raise ValueError('Problème de segmentation sur l image numéro' + str(k+1))
 
         self.all_poly.append((poly,col))
     
