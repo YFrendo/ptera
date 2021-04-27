@@ -29,12 +29,9 @@ class Segmentation:
 
         self.all_poly = [] #Pour ranger les polygones
 
-        self.COLOR = ['red','blue','yellow','green','pink'] #Nos couleurs de segmentations
+
         self.id_save = 0 #On initialise le nombre de fichiers sauvegardé
         self.enregistrement = str(enregistrement)
-
-        if len(self.liste_seg) > len(self.COLOR):
-            raise ValueError ("Le nombre maximum de segmentation est de " + str(len(self.COLOR)))
 
         if type(self.liste_seg) != list:
             raise TypeError("La liste des segmentation doit etre une liste!")
@@ -61,7 +58,7 @@ class Segmentation:
         image = self.path_image  + self.df_json['filename'][image_id]
         self.im = Image.open(image)
         x, y = self.im.size #Tille de l'image
-        self.font = Image.new('RGB',(x,y),(0, 0, 0)) #Un fond noir de la meme taille que les images
+        self.font = Image.new('L',(x,y)) #Un fond noir de la meme taille que les images
         self.draw = ImageDraw.Draw(self.font) #Pour dessiner nos polygones
     
     def create_polygon(self,image_id,segmentation):
@@ -99,7 +96,7 @@ class Segmentation:
         
         for k in range(len(self.liste_seg)):
             if list(self.df_json['regions'][image_id][segmentation]['region_attributes']['Segmentation'].keys())[0] == self.liste_seg[k]:
-                col = self.COLOR[k]
+                col = k
 
         self.all_poly.append((poly,col))
     
