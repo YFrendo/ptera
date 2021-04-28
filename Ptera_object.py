@@ -97,7 +97,7 @@ class Segmentation:
         try:
             for k in range(len(self.liste_seg)):
                 if list(self.df_json['regions'][image_id][segmentation]['region_attributes']['Segmentation'].keys())[0] == self.liste_seg[k]:
-                    col = k
+                    col = k + 1
         except:
             raise ValueError('Problème de segmentation sur l image numéro' + str(k+1))
 
