@@ -1,4 +1,5 @@
 # PTERA
+Ce script à servis dans le cadre d'une préparation d'un jeu de donnée pour du ML et de la ségmentation automatique
 ## PréTraitEment Rapide des fichiers viA
 
 Petit script qui permet de renvoyer des images (JPEG) à partir des JSON des ségmentations fournis par VIA  
